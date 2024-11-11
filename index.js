@@ -35,6 +35,7 @@ async function run() {
           // Get all menu data form db 
           app.get('/menu', async (req, res) => {
             const result = await menuCollection.find().toArray();
+            console.log(result)
             res.send(result);
         })
 
