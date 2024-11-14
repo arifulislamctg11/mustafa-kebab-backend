@@ -31,12 +31,26 @@ async function run() {
   try {
 
     const menuCollection = client.db('mustafakebabDB').collection('menu');
+    const orderCollection = client.db('mustafakebabDB').collection('order');
 
           // Get all menu data form db 
           app.get('/menu', async (req, res) => {
             const result = await menuCollection.find().toArray();
             console.log(result)
             res.send(result);
+        })
+
+        app.post('/ordersMenu',async(req,res)=>{
+          try {
+            const order = req.body;
+            const orderMenu = await orderCollection.insertOne(order);
+            console.log('Order saved:', orderMenu);
+            res.send(orderMenu);
+          } catch (error) {
+            console.error('Error while saving order:', error);
+            res.status(500).send('Failed to save order');
+          }
+
         })
 
 
