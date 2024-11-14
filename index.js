@@ -17,8 +17,8 @@ app.use(cors(corsOptions))
 
 app.use(express.json())
 
-
-const uri = `mongodb+srv://mustofaKebab:nttgpDKueCAFA747@cluster0.0afhd.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`
+const uri = process.env.DATABASE_URL;
+const uri_bck = `mongodb+srv://mustofaKebab:nttgpDKueCAFA747@cluster0.0afhd.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`
 
 const client = new MongoClient(uri, {
     serverApi: {
@@ -30,7 +30,7 @@ const client = new MongoClient(uri, {
 async function run() {
   try {
 
-    const menuCollection = client.db('mustofa').collection('menu');
+    const menuCollection = client.db('mustafakebabDB').collection('menu');
 
           // Get all menu data form db 
           app.get('/menu', async (req, res) => {
@@ -65,9 +65,9 @@ async function run() {
 run().catch(console.dir)
 
 app.get('/', (req, res) => {
-  res.send('Hello from mustofa Server..')
+  res.send('Hello from mustafa Server..')
 })
 
 app.listen(port, () => {
-  console.log(`mustofa is running on port ${port}`)
+  console.log(`Mustafa is running on port ${port}`)
 })
