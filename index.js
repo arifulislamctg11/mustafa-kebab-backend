@@ -17,8 +17,13 @@ app.use(cors(corsOptions))
 
 app.use(express.json())
 
+
+
+
+
 const uri = process.env.DATABASE_URL;
 const uri_bck = `mongodb+srv://mustofaKebab:nttgpDKueCAFA747@cluster0.0afhd.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`
+
 
 const client = new MongoClient(uri, {
     serverApi: {
@@ -30,21 +35,29 @@ const client = new MongoClient(uri, {
 async function run() {
   try {
 
+
     const menuCollection = client.db('mustafakebabDB').collection('menu');
     const orderCollection = client.db('mustafakebabDB').collection('order');
 
+
+
+
+          //  Get all ordersMenu data 
+          app.get ('/getAllOrdersMenu', async(req,res)=>{
+            const orderMenu=await orderCollection.find().toArray()
+            res.send(orderMenu)
+          })
           // Get all menu data form db 
           app.get('/menu', async (req, res) => {
             const result = await menuCollection.find().toArray();
-            console.log(result)
             res.send(result);
         })
 
+        //  ordersMenu 
         app.post('/ordersMenu',async(req,res)=>{
           try {
             const order = req.body;
             const orderMenu = await orderCollection.insertOne(order);
-            console.log('Order saved:', orderMenu);
             res.send(orderMenu);
           } catch (error) {
             console.error('Error while saving order:', error);
